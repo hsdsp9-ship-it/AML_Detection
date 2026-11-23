@@ -1,0 +1,19 @@
+# The main pipeline for AML_detection
+
+resources:
+  pipelines:
+    AML_detection_etl:
+      name: AML_detection_etl
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      root_path: "../src/AML_detection_etl"
+
+      libraries:
+        - glob:
+            include: ../src/AML_detection_etl/transformations/**
+
+      environment:
+        dependencies:
+          # We include every dependency defined by pyproject.toml by defining an editable environment
+          # that points to the folder where pyproject.toml is deployed.
+          - --editable ${workspace.file_path}
